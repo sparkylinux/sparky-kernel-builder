@@ -1,0 +1,230 @@
+#!/bin/bash
+
+# sparky-kernel-builder script easy Sparky's Linux kernel building process.
+# Copyright 2017 (C) Paweł "pavroo" Pijanowski under GNU GPL3 license
+#
+# How to:
+# 1. Install dependencies:
+#   sudo apt-get install grep coreutils pwd make bash xz-utils tar fakeroot build-essential ncurses-dev libssl-dev bc wget iputils-ping gawk
+#   sudo apt-get install --no-install-recommends kernel-package
+# 2. Place the script into your working directory. You need 15 GB of free space to make one build.
+# 3. Change KERNELVER number to yours.
+# 4. Change JOBS number, depends of number of your machine's CPUs + 1, for expamle:
+#    2 CPUs: JOBS="3"; 4 CPUs: JOBS="5"; etc.
+# 5. Make the script executable: chmod +x sparky-kernel-builder
+# 6. Run the script (as a regular user): ./sparky-kernel-builder
+#
+# Last update September 04, 2017 by pavroo
+
+KERNELVER="4.13.0"
+KERNEL64="`uname -r | grep amd64`"
+KERNEL32PAE="`uname -r | grep pae`"
+if [ "$KERNEL64" != "" ]; then
+	ARCH="amd64"
+elif [ "$KERNEL32PAE" != "" ]; then
+	ARCH="686-pae"
+else
+	ARCH="686"
+fi
+PWD="`pwd`"
+JOBS="5"
+WGET="`which wget`"
+CUSTOM="sparky"
+SUBVER="1"
+
+# get the kernel source
+if [ -f linux-$KERNELVER.tar.xz ]; then
+	echo "The Linux kernel source linux-$KERNELVER.tar.xz already exist in the working directory. Checking it now..."
+	
+	PACKAGESIZE=`ls -s linux-$KERNELVER.tar.xz | awk -F " " '{print $1}'`
+	if [ "$PACKAGESIZE" = "0" ]; then
+		echo "The linux-$KERNELVER.tar.xz package size is 0MB; delete it and try again."
+		exit 1
+	fi
+else	
+	if [ "$WGET" = "" ]; then
+		echo "Missing wget tool; install it and try again."
+		exit 1
+	fi 
+
+	# check connection
+	PINGTEST=$(ping -c 1 kernel.org | grep [0-9])
+
+	if [ "$PINGTEST" = "" ]; then
+		echo "Internet connection test failed!"
+		echo "Probably you are NOT connected to the Internet or the kernel server is down."
+		echo "Check it out and try again."
+		exit 1
+	fi
+
+	$WGET https://www.kernel.org/pub/linux/kernel/v4.x/linux-$KERNELVER.tar.xz
+fi
+
+# check the kernel package again
+if [ ! -f linux-$KERNELVER.tar.xz ]; then
+	echo "Missing linux-$KERNELVER.tar.xz package."
+	exit 1
+fi
+
+PACKAGESIZE=`ls -s linux-$KERNELVER.tar.xz | awk -F " " '{print $1}'`
+if [ "$PACKAGESIZE" = "0" ]; then
+	echo "The linux-$KERNELVER.tar.xz package size is 0MB; delete it and try again."
+	exit 1
+fi
+
+# unpack the source package
+if [ "$KERNEL64" != "" ]; then
+	if [ -d $PWD/amd64-$KERNELVER ]; then
+		echo "amd64-$KERNELVER directory already exist; delete it or change working directory."
+		exit 1
+	fi	
+
+	if [ ! -d $PWD/amd64-$KERNELVER ]; then
+		mkdir -p $PWD/amd64-$KERNELVER
+	fi
+
+	echo "Coping linux kernel source for amd64..."
+	cp linux-$KERNELVER.tar.xz $PWD/amd64-$KERNELVER/
+	cd $PWD/amd64-$KERNELVER
+
+	if [ ! -f linux-$KERNELVER.tar.xz ]; then
+		echo "Missing linux-kernel.tar.xz in amd64 directory."
+		exit 1
+	fi
+
+	echo "unxz linux kernel source for amd64..."
+	unxz -d linux-$KERNELVER.tar.xz
+	if [ ! -f linux-$KERNELVER.tar ]; then
+		echo "Missing linux-kernel.tar in amd64 directory."
+		exit 1
+	fi
+
+	echo "untar kernel source for amd64..."
+	tar -xf linux-$KERNELVER.tar
+	if [ ! -d linux-$KERNELVER ]; then
+		echo "Missing linux kernel folder in amd64 directory."
+		exit 1
+	fi
+
+elif [ "$KERNEL32PAE" != "" ]; then
+	if [ -d $PWD/686pae-$KERNELVER ]; then
+		echo "686pae-$KERNELVER directory already exist; delete it or change working directory."
+		exit 1
+	fi
+
+	if [ ! -d $PWD/686pae-$KERNELVER ]; then
+		mkdir -p $PWD/686pae-$KERNELVER
+	fi
+
+	echo "Coping linux kernel source for 686pae..."
+	cp linux-$KERNELVER.tar.xz $PWD/686pae-$KERNELVER/
+	cd $PWD/686pae-$KERNELVER
+
+	if [ ! -f linux-$KERNELVER.tar.xz ]; then
+		echo "Missing linux-kernel.tar.xz in 686pae directory."
+		exit 1
+	fi
+
+	echo "unxz linux kernel source for 686pae..."
+	unxz -d linux-$KERNELVER.tar.xz
+	if [ ! -f linux-$KERNELVER.tar ]; then
+		echo "Missing linux-kernel.tar in 686pae directory."
+		exit 1
+	fi
+
+	echo "untar kernel source for 686pae..."
+	tar -xf linux-$KERNELVER.tar
+	if [ ! -d "linux-$KERNELVER" ]; then
+		echo "Missing linux kernel folder in 686pae directory."
+		exit 1
+	fi
+
+else
+	if [ -d $PWD/686-$KERNELVER ]; then
+		echo "686-$KERNELVER directory already exist; delete it or change working directory."
+		exit 1
+	fi
+
+	if [ ! -d $PWD/686-$KERNELVER ]; then
+		mkdir -p $PWD/686-$KERNELVER
+	fi
+
+	echo "Coping linux kernel source for 686..."
+	cp linux-$KERNELVER.tar.xz $PWD/686-$KERNELVER/
+	cd $PWD/686-$KERNELVER
+
+	if [ ! -f linux-$KERNELVER.tar.xz ]; then
+		echo "Missing linux-kernel.tar.xz in 686 directory."
+		exit 1
+	fi
+
+	echo "unxz linux kernel source for 686..."
+	unxz -d linux-$KERNELVER.tar.xz
+	if [ ! -f linux-$KERNELVER.tar ]; then
+		echo "Missing linux-kernel.tar in 686 directory."
+		exit 1
+	fi
+
+	echo "untar kernel source for 686..."
+	tar -xf linux-$KERNELVER.tar
+	if [ ! -d "linux-$KERNELVER" ]; then
+		echo "Missing linux kernel folder in 686 directory."
+		exit 1
+	fi
+fi
+
+if [ ! -d linux-$KERNELVER ]; then
+	echo "Missing linux-$KERNELVER directory."
+	exit 1
+else
+	cd linux-$KERNELVER
+fi
+
+if [ ! -f Makefile ]; then
+	echo "Missing kernel's Makefile."
+	exit 1
+fi
+
+echo "Coping your kernel config now."
+cp /boot/config-$(uname -r) .config
+
+if [ ! -f .config ]; then
+	echo "Missing kernel's .config file."
+	exit 1
+fi
+
+# configure the kernel
+echo "Kernel configuration; enable or disable modules, or leave it as it is."
+sleep 5
+make menuconfig
+echo "Cleaning before building..."
+sleep 1
+make-kpkg clean
+
+echo "All preparations done, building the kernel now...1..."
+sleep 1
+echo "All preparations done, building the kernel now...1...2..."
+sleep 1
+echo "All preparations done, building the kernel now...1...2...3..."
+sleep 1
+echo "All preparations done, building the kernel now...1...2...3...4..."
+sleep 1
+echo "All preparations done, building the kernel now...1...2...3...4...5..."
+sleep 1
+
+# building the kernel now
+make deb-pkg LOCALVERSION=-$CUSTOM-$ARCH KDEB_PKGVERSION=$(make kernelversion)-$SUBVER -j $JOBS
+
+# check do the debs exist
+cd ..
+CHECKDEBS="`ls | grep deb | grep -v gz`"
+if [ "$CHECKDEBS" != "" ]; then
+	echo "All done!"
+	ls | grep deb | grep -v gz
+	echo "Install the debs using 'sudo dpkg -i *.deb' command."
+	echo "Do not install linux-xxx-dbg.deb package if exist, you don't really need it."
+else
+	echo "Ops... something went wrong, the debs are missing..."
+fi
+
+exit 0
