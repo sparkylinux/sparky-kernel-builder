@@ -5,7 +5,7 @@
 #
 # How to:
 # 1. Install dependencies:
-#   sudo apt-get install grep coreutils pwd make bash xz-utils tar fakeroot build-essential ncurses-dev libssl-dev bc wget iputils-ping gawk flex
+#   sudo apt-get install grep coreutils pwd make bash xz-utils tar fakeroot build-essential ncurses-dev libssl-dev bc wget iputils-ping gawk flex bison
 #   sudo apt-get install --no-install-recommends kernel-package
 # 2. Place the script into your working directory. You need 15 GB of free space to make one build.
 # 3. Change KERNELVER number to yours.
@@ -14,12 +14,12 @@
 # 5. Make the script executable: chmod +x sparky-kernel-builder
 # 6. Run the script (as a regular user): ./sparky-kernel-builder
 #
-# Last update April 27, 2018 by pavroo
+# Last update June 22, 2018 by pavroo
 
 # put ONLY one version: stable OR rc ONLY !!!
-# for example: 4.16.1 or 4.17-rc1
-KERNELVER=""
-KERNELVERRC="4.17-rc1"
+# for example: 4.17.1 or 4.18-rc1
+KERNELVER="4.17.2"
+KERNELVERRC=""
 
 KERNEL64="`uname -r | grep amd64`"
 KERNEL32PAE="`uname -r | grep pae`"
