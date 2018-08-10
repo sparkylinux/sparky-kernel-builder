@@ -1,6 +1,6 @@
 sparky-kernel-builder script easy Sparky's Linux kernel building process.
 
-Copyright 2017 (C) Paweł "pavroo" Pijanowski under GNU GPL3 license
+Copyright 2017-2018 (C) Paweł "pavroo" Pijanowski under GNU GPL3 license
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -17,4 +17,4 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 Dependencies:
 -------------
-grep coreutils pwd make bash xz-utils tar fakeroot build-essential ncurses-dev libssl-dev bc wget iputils-ping gawk kernel-package
+grep coreutils pwd make bash xz-utils tar fakeroot build-essential ncurses-dev libssl-dev bc wget iputils-ping gawk kernel-package flex bison

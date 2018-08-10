@@ -14,7 +14,7 @@
 # 5. Make the script executable: chmod +x sparky-kernel-builder
 # 6. Run the script (as a regular user): ./sparky-kernel-builder
 #
-# Last update June 22, 2018 by pavroo
+# Last update August 09, 2018 by pavroo
 
 # put ONLY one version: stable OR rc ONLY !!!
 # for example: 4.17.1 or 4.18-rc1
@@ -39,9 +39,13 @@ SUBVER="1"
 # get the kernel source
 if [ -f linux-$KERNELVER.tar.xz ] || [ -f linux-$KERNELVERRC.tar.gz ]; then
 	echo "The Linux kernel source linux-kernel.tar.xz (or .gz) already exist in the working directory. Checking it now..."
-	
-	PACKAGESIZE=`ls -s linux-$KERNELVER.tar.xz | awk -F " " '{print $1}'`
-	PACKAGESIZERC=`ls -s linux-$KERNELVERRC.tar.gz | awk -F " " '{print $1}'`
+
+	if [ "$KERNELVER" != "" ]; then
+		PACKAGESIZE=`ls -s linux-$KERNELVER.tar.xz | awk -F " " '{print $1}'`
+	else
+		PACKAGESIZERC=`ls -s linux-$KERNELVERRC.tar.gz | awk -F " " '{print $1}'`
+	fi
+
 	if [ "$PACKAGESIZE" = "0" ] || [ "$PACKAGESIZERC" = "0" ]; then
 		echo "The linux-kernel package size is 0MB; delete it and try again."
 		exit 1
@@ -90,8 +94,12 @@ elif [ "$KERNELVERRC" != "" ]; then
 	fi
 fi
 
-PACKAGESIZE=`ls -s linux-$KERNELVER.tar.xz | awk -F " " '{print $1}'`
-PACKAGESIZERC=`ls -s linux-$KERNELVERRC.tar.gz | awk -F " " '{print $1}'`
+if [ "$KERNELVER" != "" ]; then
+	PACKAGESIZE=`ls -s linux-$KERNELVER.tar.xz | awk -F " " '{print $1}'`
+else
+	PACKAGESIZERC=`ls -s linux-$KERNELVERRC.tar.gz | awk -F " " '{print $1}'`
+fi
+
 if [ "$PACKAGESIZE" = "0" ] || [ "$PACKAGESIZERC" = "0" ]; then
 	echo "The linux-kernel package size is 0MB; delete it and try again."
 	exit 1
@@ -322,15 +330,11 @@ echo "Cleaning before building..."
 sleep 1
 make-kpkg clean
 
-echo "All preparations done, building the kernel now...1..."
+echo "All preparations done, building the kernel now...1...2...3..."
 sleep 1
 echo "All preparations done, building the kernel now...1...2..."
 sleep 1
-echo "All preparations done, building the kernel now...1...2...3..."
-sleep 1
-echo "All preparations done, building the kernel now...1...2...3...4..."
-sleep 1
-echo "All preparations done, building the kernel now...1...2...3...4...5..."
+echo "All preparations done, building the kernel now...1..."
 sleep 1
 
 # building the kernel now
