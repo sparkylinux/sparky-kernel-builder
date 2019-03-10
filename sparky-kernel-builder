@@ -14,12 +14,15 @@
 # 5. Make the script executable: chmod +x sparky-kernel-builder
 # 6. Run the script (as a regular user): ./sparky-kernel-builder
 #
-# Last update August 09, 2018 by pavroo
+# Last update March 10, 2019 by pavroo
 
 # put ONLY one version: stable OR rc ONLY !!!
-# for example: 4.17.1 or 4.18-rc1
-KERNELVER="4.17.2"
+# for example: 5.0.1 or 5.0-rc8
+KERNELVER="5.0.1"
 KERNELVERRC=""
+
+# chosse a stable line: 5.x or 4.x
+LINE="5.x"
 
 KERNEL64="`uname -r | grep amd64`"
 KERNEL32PAE="`uname -r | grep pae`"
@@ -72,7 +75,7 @@ else
 	fi
 
 	if [ "$KERNELVER" != "" ]; then
-		$WGET https://www.kernel.org/pub/linux/kernel/v4.x/linux-$KERNELVER.tar.xz
+		$WGET https://www.kernel.org/pub/linux/kernel/v$LINE/linux-$KERNELVER.tar.xz
 	elif [ "$KERNELVERRC" != "" ]; then
 		$WGET https://git.kernel.org/torvalds/t/linux-$KERNELVERRC.tar.gz
 	else
