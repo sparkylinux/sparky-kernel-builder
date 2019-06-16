@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # sparky-kernel-builder script easy Sparky's Linux kernel building process.
-# Copyright 2017-2018 (C) Paweł "pavroo" Pijanowski under GNU GPL3 license
+# Copyright 2017-2019 (C) Paweł "pavroo" Pijanowski under GNU GPL3 license
 #
 # How to:
 # 1. Install dependencies:
@@ -14,14 +14,12 @@
 # 5. Make the script executable: chmod +x sparky-kernel-builder
 # 6. Run the script (as a regular user): ./sparky-kernel-builder
 #
-# Last update March 10, 2019 by pavroo
+# Last update June 16, 2019 by pavroo
 
-# put ONLY one version: stable OR rc ONLY !!!
-# for example: 5.0.1 or 5.0-rc8
-KERNELVER="5.0.1"
-KERNELVERRC=""
+# put a kernel version, for example: 5.1.10 or 5.2-rc5
+KERNEL="5.1.10"
 
-# chosse a stable line: 5.x or 4.x
+# choose a stable line: 5.x or 4.x
 LINE="5.x"
 
 KERNEL64="`uname -r | grep amd64`"
@@ -38,6 +36,13 @@ JOBS="5"
 WGET="`which wget`"
 CUSTOM="sparky"
 SUBVER="1"
+
+CHECKKERNEL="`echo $KERNEL | grep rc`"
+if [ "$CHECKKERNEL" = "" ]; then
+	KERNELVER="$KERNEL"
+else
+	KERNELVERRC="$KERNEL"
+fi
 
 # get the kernel source
 if [ -f linux-$KERNELVER.tar.xz ] || [ -f linux-$KERNELVERRC.tar.gz ]; then
