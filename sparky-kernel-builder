@@ -46,7 +46,7 @@ fi
 
 # get the kernel source
 if [ -f linux-$KERNELVER.tar.xz ] || [ -f linux-$KERNELVERRC.tar.gz ]; then
-	echo "The Linux kernel source linux-kernel.tar.xz (or .gz) already exist in the working directory. Checking it now..."
+	echo "The Linux kernel $KERNEL source linux-kernel.tar.xz (or .gz) already exist in the working directory. Checking it now..."
 
 	if [ "$KERNELVER" != "" ]; then
 		PACKAGESIZE=`ls -s linux-$KERNELVER.tar.xz | awk -F " " '{print $1}'`
@@ -55,7 +55,7 @@ if [ -f linux-$KERNELVER.tar.xz ] || [ -f linux-$KERNELVERRC.tar.gz ]; then
 	fi
 
 	if [ "$PACKAGESIZE" = "0" ] || [ "$PACKAGESIZERC" = "0" ]; then
-		echo "The linux-kernel package size is 0MB; delete it and try again."
+		echo "The linux-kernel $KERNEL package size is 0MB; delete it and try again."
 		exit 1
 	fi
 else	
@@ -109,7 +109,7 @@ else
 fi
 
 if [ "$PACKAGESIZE" = "0" ] || [ "$PACKAGESIZERC" = "0" ]; then
-	echo "The linux-kernel package size is 0MB; delete it and try again."
+	echo "The linux-kernel $KERNEL package size is 0MB; delete it and try again."
 	exit 1
 fi
 
@@ -127,26 +127,26 @@ if [ "$KERNELVER" != "" ]; then
 			mkdir -p $PWD/amd64-$KERNELVER
 		fi
 
-		echo "Coping linux kernel source for amd64..."
+		echo "Coping linux kernel $KERNEL source for amd64..."
 		cp linux-$KERNELVER.tar.xz $PWD/amd64-$KERNELVER/
 		cd $PWD/amd64-$KERNELVER
 
 		if [ ! -f linux-$KERNELVER.tar.xz ]; then
-			echo "Missing linux-kernel.tar.xz in amd64 directory."
+			echo "Missing linux-kernel.tar.xz $KERNEL in amd64 directory."
 			exit 1
 		fi
 
-		echo "unxz linux kernel source for amd64..."
+		echo "unxz linux kernel $KERNEL source for amd64..."
 		unxz -d linux-$KERNELVER.tar.xz
 		if [ ! -f linux-$KERNELVER.tar ]; then
-			echo "Missing linux-kernel.tar in amd64 directory."
+			echo "Missing linux-kernel.tar $KERNEL in amd64 directory."
 			exit 1
 		fi
 
-		echo "untar kernel source for amd64..."
+		echo "untar kernel $KERNEL source for amd64..."
 		tar -xf linux-$KERNELVER.tar
 		if [ ! -d linux-$KERNELVER ]; then
-			echo "Missing linux kernel folder in amd64 directory."
+			echo "Missing linux kernel $KERNEL folder in amd64 directory."
 			exit 1
 		fi
 
@@ -160,26 +160,26 @@ if [ "$KERNELVER" != "" ]; then
 			mkdir -p $PWD/686pae-$KERNELVER
 		fi
 
-		echo "Coping linux kernel source for 686pae..."
+		echo "Coping linux kernel $KERNEL source for 686pae..."
 		cp linux-$KERNELVER.tar.xz $PWD/686pae-$KERNELVER/
 		cd $PWD/686pae-$KERNELVER
 
 		if [ ! -f linux-$KERNELVER.tar.xz ]; then
-			echo "Missing linux-kernel.tar.xz in 686pae directory."
+			echo "Missing linux-kernel.tar.xz $KERNEL in 686pae directory."
 			exit 1
 		fi
 
-		echo "unxz linux kernel source for 686pae..."
+		echo "unxz linux kernel $KERNEL source for 686pae..."
 		unxz -d linux-$KERNELVER.tar.xz
 		if [ ! -f linux-$KERNELVER.tar ]; then
-			echo "Missing linux-kernel.tar in 686pae directory."
+			echo "Missing linux-kernel.tar $KERNEL in 686pae directory."
 			exit 1
 		fi
 
-		echo "untar kernel source for 686pae..."
+		echo "untar kernel $KERNEL source for 686pae..."
 		tar -xf linux-$KERNELVER.tar
 		if [ ! -d "linux-$KERNELVER" ]; then
-			echo "Missing linux kernel folder in 686pae directory."
+			echo "Missing linux kernel $KERNEL folder in 686pae directory."
 			exit 1
 		fi
 
@@ -193,26 +193,26 @@ if [ "$KERNELVER" != "" ]; then
 			mkdir -p $PWD/686-$KERNELVER
 		fi
 
-		echo "Coping linux kernel source for 686..."
+		echo "Coping linux kernel $KERNEL source for 686..."
 		cp linux-$KERNELVER.tar.xz $PWD/686-$KERNELVER/
 		cd $PWD/686-$KERNELVER
 
 		if [ ! -f linux-$KERNELVER.tar.xz ]; then
-			echo "Missing linux-kernel.tar.xz in 686 directory."
+			echo "Missing linux-kernel.tar.xz $KERNEL in 686 directory."
 			exit 1
 		fi
 
-		echo "unxz linux kernel source for 686..."
+		echo "unxz linux kernel $KERNEL source for 686..."
 		unxz -d linux-$KERNELVER.tar.xz
 		if [ ! -f linux-$KERNELVER.tar ]; then
-			echo "Missing linux-kernel.tar in 686 directory."
+			echo "Missing linux-kernel.tar $KERNEL in 686 directory."
 			exit 1
 		fi
 
-		echo "untar kernel source for 686..."
+		echo "untar kernel $KERNEL source for 686..."
 		tar -xf linux-$KERNELVER.tar
 		if [ ! -d "linux-$KERNELVER" ]; then
-			echo "Missing linux kernel folder in 686 directory."
+			echo "Missing linux kernel $KERNEL folder in 686 directory."
 			exit 1
 		fi
 	fi
@@ -230,19 +230,19 @@ elif [ "$KERNELVERRC" != "" ]; then
 			mkdir -p $PWD/amd64-$KERNELVERRC
 		fi
 
-		echo "Coping linux kernel source for amd64..."
+		echo "Coping linux kernel $KERNEL source for amd64..."
 		cp linux-$KERNELVERRC.tar.gz $PWD/amd64-$KERNELVERRC/
 		cd $PWD/amd64-$KERNELVERRC
 
 		if [ ! -f linux-$KERNELVERRC.tar.gz ]; then
-			echo "Missing linux-kernel.tar.gz in amd64 directory."
+			echo "Missing linux-kernel.tar.gz $KERNEL in amd64 directory."
 			exit 1
 		fi
 
-		echo "untar kernel source for amd64..."
+		echo "untar kernel $KERNEL source for amd64..."
 		tar -xf linux-$KERNELVERRC.tar.gz
 		if [ ! -d linux-$KERNELVERRC ]; then
-			echo "Missing linux kernel folder in amd64 directory."
+			echo "Missing linux kernel $KERNEL folder in amd64 directory."
 			exit 1
 		fi
 
@@ -256,19 +256,19 @@ elif [ "$KERNELVERRC" != "" ]; then
 			mkdir -p $PWD/686pae-$KERNELVERRC
 		fi
 
-		echo "Coping linux kernel source for 686pae..."
+		echo "Coping linux kernel $KERNEL source for 686pae..."
 		cp linux-$KERNELVERRC.tar.gz $PWD/686pae-$KERNELVERRC/
 		cd $PWD/686pae-$KERNELVERRC
 
 		if [ ! -f linux-$KERNELVERRC.tar.gz ]; then
-			echo "Missing linux-kernel.tar.gz in 686pae directory."
+			echo "Missing linux-kernel.tar.gz $KERNEL in 686pae directory."
 			exit 1
 		fi
 
-		echo "untar kernel source for 686pae..."
+		echo "untar kernel $KERNEL source for 686pae..."
 		tar -xf linux-$KERNELVERRC.tar.gz
 		if [ ! -d "linux-$KERNELVERRC" ]; then
-			echo "Missing linux kernel folder in 686pae directory."
+			echo "Missing linux kernel $KERNEL folder in 686pae directory."
 			exit 1
 		fi
 
@@ -282,19 +282,19 @@ elif [ "$KERNELVERRC" != "" ]; then
 			mkdir -p $PWD/686-$KERNELVERRC
 		fi
 
-		echo "Coping linux kernel source for 686..."
+		echo "Coping linux kernel $KERNEL source for 686..."
 		cp linux-$KERNELVERRC.tar.gz $PWD/686-$KERNELVERRC/
 		cd $PWD/686-$KERNELVERRC
 
 		if [ ! -f linux-$KERNELVERRC.tar.gz ]; then
-			echo "Missing linux-kernel.tar.gz in 686 directory."
+			echo "Missing linux-kernel.tar.gz $KERNEL in 686 directory."
 			exit 1
 		fi
 
-		echo "untar kernel source for 686..."
+		echo "untar kernel $KERNEL source for 686..."
 		tar -xf linux-$KERNELVERRC.tar.gz
 		if [ ! -d "linux-$KERNELVERRC" ]; then
-			echo "Missing linux kernel folder in 686 directory."
+			echo "Missing linux kernel $KERNEL folder in 686 directory."
 			exit 1
 		fi
 	fi
@@ -303,14 +303,14 @@ fi
 
 if [ "$KERNELVER" != "" ]; then
 	if [ ! -d linux-$KERNELVER ]; then
-		echo "Missing linux-kernel directory."
+		echo "Missing linux-kernel $KERNEL directory."
 		exit 1
 	else
 		cd linux-$KERNELVER
 	fi
 elif [ "$KERNELVERRC" != "" ]; then
 	if [ ! -d linux-$KERNELVERRC ]; then
-		echo "Missing linux-kernel directory."
+		echo "Missing linux-kernel $KERNEL directory."
 		exit 1
 	else
 		cd linux-$KERNELVERRC
