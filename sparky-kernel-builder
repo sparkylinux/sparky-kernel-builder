@@ -32,7 +32,7 @@ else
 	ARCH="686"
 fi
 PWD="`pwd`"
-JOBS="`grep -c ^processor /proc/cpuinfo`"
+JOBS="`nproc`"
 WGET="`which wget`"
 CUSTOM="sparky"
 SUBVER="1"
