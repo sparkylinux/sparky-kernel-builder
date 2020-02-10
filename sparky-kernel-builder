@@ -1,11 +1,11 @@
 #!/bin/bash
 
 # sparky-kernel-builder script easy Sparky's Linux kernel building process.
-# Copyright 2017-2019 (C) Paweł "pavroo" Pijanowski under GNU GPL3 license
+# Copyright 2017-2020 (C) Paweł "pavroo" Pijanowski under GNU GPL3 license
 #
 # How to:
 # 1. Install dependencies:
-#   sudo apt-get install grep coreutils pwd make bash xz-utils tar fakeroot build-essential ncurses-dev libssl-dev bc wget iputils-ping gawk flex bison
+#   sudo apt-get install grep coreutils pwd make bash xz-utils tar fakeroot build-essential ncurses-dev libssl-dev bc wget iputils-ping gawk flex bison binutils-dev
 #   sudo apt-get install --no-install-recommends kernel-package
 # 2. Place the script into your working directory. You need 15 GB of free space to make one build.
 # 3. Change KERNELVER number to yours.
