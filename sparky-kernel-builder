@@ -5,16 +5,14 @@
 #
 # How to:
 # 1. Install dependencies:
-#   sudo apt-get install grep coreutils pwd make bash xz-utils tar fakeroot build-essential ncurses-dev libssl-dev bc wget iputils-ping gawk flex bison binutils-dev
+#   sudo apt-get install grep coreutils make bash xz-utils tar fakeroot build-essential ncurses-dev libssl-dev bc wget iputils-ping gawk flex bison binutils-dev
 #   sudo apt-get install --no-install-recommends kernel-package
 # 2. Place the script into your working directory. You need 15 GB of free space to make one build.
 # 3. Change KERNELVER number to yours.
-# 4. Change JOBS number, depends of number of your machine's CPUs + 1, for expamle:
-#    2 CPUs: JOBS="3"; 4 CPUs: JOBS="5"; etc.
-# 5. Make the script executable: chmod +x sparky-kernel-builder
-# 6. Run the script (as a regular user): ./sparky-kernel-builder
+# 4. Make the script executable: chmod +x sparky-kernel-builder
+# 5. Run the script (as a regular user): ./sparky-kernel-builder
 #
-# Last update July 21, 2019 by pavroo
+# Last update May 15, 2020 by pavroo
 
 # put a kernel version, for example: 5.1.10 or 5.2-rc5
 KERNEL="5.1.10"

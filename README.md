@@ -17,4 +17,4 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 Dependencies:
 -------------
-grep coreutils pwd make bash xz-utils tar fakeroot build-essential ncurses-dev libssl-dev bc wget iputils-ping gawk kernel-package flex bison binutils-dev
+grep coreutils make bash xz-utils tar fakeroot build-essential ncurses-dev libssl-dev bc wget iputils-ping gawk kernel-package flex bison binutils-dev
